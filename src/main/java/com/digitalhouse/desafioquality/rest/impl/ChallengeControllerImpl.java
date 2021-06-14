@@ -1,6 +1,6 @@
 package com.digitalhouse.desafioquality.rest.impl;
 
-import com.digitalhouse.desafioquality.entity.District;
+import com.digitalhouse.desafioquality.entity.Room;
 import com.digitalhouse.desafioquality.rest.ChallengeController;
 import com.digitalhouse.desafioquality.rest.dto.PropertyRequestDTO;
 import com.digitalhouse.desafioquality.service.ChallengeService;
@@ -28,7 +28,11 @@ public class ChallengeControllerImpl implements ChallengeController {
 
     @PostMapping("/calculatePropertyValue")
     public Double calculatePropertyValue(@RequestBody PropertyRequestDTO property) {
-        District d1 = service.auxDistrictValues(property.turnIntoProperty().getDistrict());
-        return calculateSquareMeters(property) * d1.getPricePerSquareMeter();
+        return service.calculatePropertyValue(property);
+    }
+
+    @PostMapping("/calculateBiggestRoom")
+    public Room calculateBiggestRoom(@RequestBody PropertyRequestDTO property) {
+        return service.calculateBiggestRoom(property);
     }
 }
