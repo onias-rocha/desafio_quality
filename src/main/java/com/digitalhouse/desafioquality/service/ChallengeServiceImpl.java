@@ -5,6 +5,7 @@ import com.digitalhouse.desafioquality.entity.Property;
 import com.digitalhouse.desafioquality.entity.Room;
 import com.digitalhouse.desafioquality.repository.PropertyRepository;
 import com.digitalhouse.desafioquality.rest.dto.PropertyRequestDTO;
+import com.digitalhouse.desafioquality.rest.dto.RoomDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,6 +61,35 @@ public class ChallengeServiceImpl implements ChallengeService {
             }
         }
         return bigger;
+    }
+
+    @Override
+    public ArrayList<Double> calculateAllRoomsSquareMeters(PropertyRequestDTO property) {
+        ArrayList<Double> roomsSquareMeters = new ArrayList<>();
+
+        for(RoomDTO room: property.getRooms()){
+            roomsSquareMeters.add(room.getRoom_length() * room.getRoom_width());
+        }
+
+        return roomsSquareMeters;
+    }
+
+    @Override
+    public ArrayList<RoomResponseDTO> calculateAllRoomsSquareMetersRestfully(PropertyRequestDTO property) {
+
+        ArrayList<RoomResponseDTO> ListOfRoomsResponseDtos = new ArrayList<>();
+
+        List<RoomDTO> dtoOfRooms = property.getRooms();
+        List<Double> squareMeters = calculateAllRoomsSquareMeters(property);
+
+        for(int i = 0; i<property.getRooms().size(); i++){
+            RoomResponseDTO RoomResponseDto = new RoomResponseDTO();
+            RoomResponseDto.setRoomName(dtoOfRooms.get(i).getRoom_name());
+            RoomResponseDto.setSquareMeter(squareMeters.get(i));
+            ListOfRoomsResponseDtos.add(RoomResponseDto);
+        }
+
+        return ListOfRoomsResponseDtos;
     }
 
 

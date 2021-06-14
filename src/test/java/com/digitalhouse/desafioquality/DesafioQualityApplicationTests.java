@@ -28,7 +28,6 @@ class DesafioQualityApplicationTests {
     static Property property;
     static PropertyRequestDTO propDto;
 
-
     @BeforeAll
     static void init(){
         PropertyRepository repository = new PropertyRepositoryImpl();
@@ -47,7 +46,6 @@ class DesafioQualityApplicationTests {
         RoomDTO bathroom = new RoomDTO();
         List<RoomDTO> rooms = new ArrayList<>();
         PropertyRequestDTO PropDto = new PropertyRequestDTO();
-
 
         ballroom.setRoom_name("Ballroom");
         ballroom.setRoom_width(200.0);
@@ -89,7 +87,11 @@ class DesafioQualityApplicationTests {
 
     @Test
     void shouldReturnRoomsCorrectSquareMeters(){
+        ArrayList<Double> sizes = new ArrayList<>();
+        sizes.add(30000.0);
+        sizes.add(316.0);
 
+        assert(sizes.equals(service.calculateAllRoomsSquareMeters(propDto)));
     }
 
 }

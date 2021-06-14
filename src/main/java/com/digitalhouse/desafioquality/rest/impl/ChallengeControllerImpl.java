@@ -4,7 +4,10 @@ import com.digitalhouse.desafioquality.entity.Room;
 import com.digitalhouse.desafioquality.rest.ChallengeController;
 import com.digitalhouse.desafioquality.rest.dto.PropertyRequestDTO;
 import com.digitalhouse.desafioquality.service.ChallengeService;
+import com.digitalhouse.desafioquality.service.RoomResponseDTO;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -34,5 +37,10 @@ public class ChallengeControllerImpl implements ChallengeController {
     @PostMapping("/calculateBiggestRoom")
     public Room calculateBiggestRoom(@RequestBody PropertyRequestDTO property) {
         return service.calculateBiggestRoom(property);
+    }
+
+    @PostMapping("/calculateAllRoomsSquareMeters")
+    public List<RoomResponseDTO> calculateAllRoomsSquareMetersRestfully(@RequestBody PropertyRequestDTO property) {
+        return service.calculateAllRoomsSquareMetersRestfully(property);
     }
 }
