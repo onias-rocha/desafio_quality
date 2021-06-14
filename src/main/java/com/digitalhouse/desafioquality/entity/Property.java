@@ -1,6 +1,7 @@
 package com.digitalhouse.desafioquality.entity;
 
 import lombok.Data;
+
 import java.util.List;
 
 @Data

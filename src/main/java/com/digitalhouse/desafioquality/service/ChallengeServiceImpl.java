@@ -6,7 +6,9 @@ import com.digitalhouse.desafioquality.entity.Room;
 import com.digitalhouse.desafioquality.repository.PropertyRepository;
 import com.digitalhouse.desafioquality.rest.dto.PropertyRequestDTO;
 import com.digitalhouse.desafioquality.rest.dto.RoomDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,96 @@ public class ChallengeServiceImpl implements ChallengeService {
         this.repository = repository;
     }
 
+    public void validateInput(PropertyRequestDTO property){
+        if(property.getProp_name() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O nome da propriedade não pode estar vazio.");
+        }
+
+
+        String name = property.getProp_name();
+        String received = name.substring(0,1);
+        String lowerCase =received.toLowerCase(Locale.ROOT);
+
+        boolean invalidRoomName = false;
+        boolean nullRoomName = false;
+        boolean invalidRoomNameLength = false;
+        boolean invalidRoomWidthSize= false;
+        boolean nullRoomWidth = false;
+        boolean nullRoomLength = false;
+        boolean invalidRoomLengthSize = false;
+
+        for(RoomDTO room : property.getRooms()){
+            if(room.getRoom_name() == null){
+                nullRoomName = true;
+            } else
+            if(room.getRoom_width() == null){
+                nullRoomWidth = true;
+            } else
+            if(room.getRoom_length() == null){
+                nullRoomLength = true;
+            } else
+            if(room.getRoom_length() > 33){
+                invalidRoomLengthSize = true;
+            } else
+            if(room.getRoom_name().length()>30){
+                invalidRoomNameLength = true;
+            } else
+            if(room.getRoom_width() > 25){
+                invalidRoomWidthSize = true;
+            } else {
+                String roomName = room.getRoom_name();
+                String roomReceived = roomName.substring(0,1);
+                String roomLowerCase = roomReceived.toLowerCase(Locale.ROOT);
+                if (roomReceived.equals(roomLowerCase)){
+                    invalidRoomName = true;
+                }
+            }
+        }
+
+        if(received.equals(lowerCase)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O primeiro digito da propriedade não pode ser minúsculo.");
+        }
+        if(name.length()>30){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O nome não pode exceder 30 caracteres.");
+        }
+        if(property.getProp_district() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O bairo não pode estar vazio.");
+        }
+
+        if(property.getProp_district() == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O bairro não pode estar vazio.");
+        }
+        if(property.getProp_district().length()>45){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O comprimento do bairro não pode exceder 45 caracteres.");
+        }
+
+        if(invalidRoomName){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O nome do cômodo deve começar com uma letra maiúscula.");
+        }
+        if(nullRoomName){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O campo [room_name] não pode estar vazio.");
+        }
+        if(invalidRoomNameLength){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O comprimento do cômodo não pode exceder 30 caracteres.");
+        }
+
+        if(invalidRoomWidthSize){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A largura máxima permitida por cômodo é de 25 metros");
+        }
+
+        if(nullRoomWidth){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A largura do cômodo não pode estar vazia.");
+        }
+
+        if(nullRoomLength){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O comprimento do cômodo não pode estar vazio");
+        }
+
+        if(invalidRoomLengthSize){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O comprimento máximo permitido por cômodo é de 33 metros.");
+        }
+
+    }
 
     @Override
     public District auxDistrictValues(District district) {
@@ -35,19 +127,22 @@ public class ChallengeServiceImpl implements ChallengeService {
     }
 
     @Override
-    public Double calculateSquareMeters(Property property) {
-        return repository.getPropertiesSquareMeters(property);
+    public Double calculateSquareMeters(PropertyRequestDTO property) {
+        validateInput(property);
+        return repository.getPropertiesSquareMeters(property.turnIntoProperty());
     }
 
     @Override
     public Double calculatePropertyValue(PropertyRequestDTO property) {
+        validateInput(property);
         Property prop = property.turnIntoProperty();
         District d1 = auxDistrictValues(prop.getDistrict());
-        return calculateSquareMeters(property.turnIntoProperty()) * d1.getPricePerSquareMeter();
+        return calculateSquareMeters(property) * d1.getPricePerSquareMeter();
     }
 
     @Override
     public Room calculateBiggestRoom(PropertyRequestDTO property) {
+        validateInput(property);
         Property prop = property.turnIntoProperty();
         List<Room> rooms = prop.getRooms();
 
@@ -65,6 +160,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public ArrayList<Double> calculateAllRoomsSquareMeters(PropertyRequestDTO property) {
+        validateInput(property);
         ArrayList<Double> roomsSquareMeters = new ArrayList<>();
 
         for(RoomDTO room: property.getRooms()){
@@ -76,6 +172,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     @Override
     public ArrayList<RoomResponseDTO> calculateAllRoomsSquareMetersRestfully(PropertyRequestDTO property) {
+        validateInput(property);
 
         ArrayList<RoomResponseDTO> ListOfRoomsResponseDtos = new ArrayList<>();
 

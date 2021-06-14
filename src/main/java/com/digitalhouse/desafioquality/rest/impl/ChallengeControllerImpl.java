@@ -5,7 +5,10 @@ import com.digitalhouse.desafioquality.rest.ChallengeController;
 import com.digitalhouse.desafioquality.rest.dto.PropertyRequestDTO;
 import com.digitalhouse.desafioquality.service.ChallengeService;
 import com.digitalhouse.desafioquality.service.RoomResponseDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class ChallengeControllerImpl implements ChallengeController {
 
     @PostMapping("/calculateSquareMeters")
     public Double calculateSquareMeters(@RequestBody PropertyRequestDTO dto){
-        return service.calculateSquareMeters(dto.turnIntoProperty());
+        return service.calculateSquareMeters(dto);
     }
 
     @PostMapping("/calculatePropertyValue")

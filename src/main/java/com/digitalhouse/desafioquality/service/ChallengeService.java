@@ -11,7 +11,7 @@ import java.util.List;
 public interface ChallengeService {
 
     District auxDistrictValues(District district);
-    Double calculateSquareMeters(Property property);
+    Double calculateSquareMeters(PropertyRequestDTO property);
     Double calculatePropertyValue(PropertyRequestDTO property);
     Room calculateBiggestRoom(PropertyRequestDTO property);
     ArrayList<Double> calculateAllRoomsSquareMeters(PropertyRequestDTO property);
