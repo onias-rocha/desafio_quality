@@ -10,6 +10,10 @@ public class District {
         this.pricePerSquareMeter = pricePerSquareMeter;
     }
 
+    public District(String name) {
+        this.name = name;
+    }
+
     public District() {
     }
 

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class PropertyRepositoryImpl implements PropertyRepository {
 
-    List<District> districts;
+    public List<District> districts;
 
     public PropertyRepositoryImpl() {
         districts = new ArrayList<>();
@@ -52,5 +52,10 @@ public class PropertyRepositoryImpl implements PropertyRepository {
     @Override
     public String getEachRoomsSquareMeters(Property property) {
         return null;
+    }
+
+    @Override
+    public List<District> getAllDistricts() {
+        return this.districts;
     }
 }

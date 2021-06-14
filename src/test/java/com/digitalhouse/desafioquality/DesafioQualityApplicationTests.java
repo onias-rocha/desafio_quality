@@ -48,12 +48,13 @@ class DesafioQualityApplicationTests {
 
     @Test
     void shouldConfirmDistrictExistence(){
-
+        assertNotNull(service.auxDistrictValues(property.getDistrict()));
     }
 
     @Test
     void shouldReceiveExceptionForNonexistentDistrict(){
-
+        District district = new District("Lixeira", 1800.0);
+        assertNull(service.auxDistrictValues(district).getName());
     }
 
     @Test

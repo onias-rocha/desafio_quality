@@ -1,6 +1,9 @@
 package com.digitalhouse.desafioquality.repository;
 
+import com.digitalhouse.desafioquality.entity.District;
 import com.digitalhouse.desafioquality.entity.Property;
+
+import java.util.List;
 
 public interface PropertyRepository {
 
@@ -11,4 +14,6 @@ public interface PropertyRepository {
     public String getBiggestRoom(Property property);
 
     public String getEachRoomsSquareMeters(Property property);
+
+    public List<District> getAllDistricts();
 }
