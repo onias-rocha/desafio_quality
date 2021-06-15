@@ -48,12 +48,12 @@ class DesafioQualityApplicationTests {
         PropertyRequestDTO PropDto = new PropertyRequestDTO();
 
         ballroom.setRoom_name("Ballroom");
-        ballroom.setRoom_width(200.0);
-        ballroom.setRoom_length(150.0);
+        ballroom.setRoom_width(20.0);
+        ballroom.setRoom_length(20.0);
 
         bathroom.setRoom_name("Bathroom");
-        bathroom.setRoom_width(20.0);
-        bathroom.setRoom_length(15.8);
+        bathroom.setRoom_width(10.0);
+        bathroom.setRoom_length(10.0);
 
         rooms.add(ballroom);
         rooms.add(bathroom);
@@ -61,14 +61,16 @@ class DesafioQualityApplicationTests {
         PropDto.setProp_name("Casa DTO de Teste");
         PropDto.setRooms(rooms);
 
+        PropDto.setProp_district("Centro");
+
         propDto = PropDto;
     }
 
-    //TODO: Fix
-//    @Test
-//    void shouldReturnPropertiesCorrectSquareMeters(){
-//        assertEquals(125, service.calculateSquareMeters(property));
-//    }
+
+    @Test
+    void shouldReturnPropertiesCorrectSquareMeters(){
+        assertEquals(500, service.calculateSquareMeters(propDto));
+    }
 
     @Test
     void shouldConfirmDistrictExistence(){
@@ -89,8 +91,8 @@ class DesafioQualityApplicationTests {
     @Test
     void shouldReturnRoomsCorrectSquareMeters(){
         ArrayList<Double> sizes = new ArrayList<>();
-        sizes.add(30000.0);
-        sizes.add(316.0);
+        sizes.add(400.0);
+        sizes.add(100.0);
 
         assert(sizes.equals(service.calculateAllRoomsSquareMeters(propDto)));
     }
