@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ class DesafioQualityApplicationTests {
     void shouldReceiveExceptionForNonexistentDistrict(){
         District district = new District("Lixeira", 1800.0);
         assertNull(service.auxDistrictValues(district));
+        
     }
 
     @Test
